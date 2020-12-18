@@ -1,0 +1,56 @@
+\documentclass[11pt]{article}
+ 
+\usepackage[margin=0.8in]{geometry} 
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{relsize}
+\usepackage{url}
+\usepackage{comment}
+ 
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+ 
+\newenvironment{theorem}[2][Theorem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{lemma}[2][Lemma]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{exercise}[2][Exercise]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{problem}[2][Problem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{question}[2][Question]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{corollary}[2][Corollary]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{solution}[2][Solution]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+ 
+\begin{document}
+ 
+% --------------------------------------------------------------
+%                         Start here
+% --------------------------------------------------------------
+ 
+\title{Distribution Network Optimization - Stationery product case study }
+\author{Utkarsh Konge\footnote{Contact:203190013@iitb.ac.in}}
+\date{}
+\maketitle
+
+\section{Overview}
+The case-study \cite{drake2011case} describes a problem to optimize the distribution network of a firm supplying stationery office supplies to its customers. Due to increase in carrier prices, the firm is forced to evaluate \textbf{zone skipping} strategy to bypass the high rates. As an analyst, we are assigned the task to decide the pooling points such that all the customers' demand is satisfied at a minimum cost.
+
+\section{Problem statement}
+Firm A, operating in US, provides their customers with stationery office supplies all over the country. They used to deliver the parcels to local distributors through United States Package Express (USPE) to meet the demand. The local distributors then used to personally deliver these packages to the customers. 
+
+In-spite of high prices of USPE, it was the chosen carrier due to its high quality of delivery (low damages and reliable delivery time). But, in current cycle of renewal of contract, USPE increased the delivery prices more than expected. Thus, the management of firm A is forced to explore other alternatives like \textbf{zone-skipping} to lower its cost, at expense of delivery time. Firm B has offered to provide its warehouses as pooling locations. Firm A can pool demand of a few customers and transport it to one of the warehouses. From here, individual packages can be shipped to respective customers using USPE carrier. All the cost data has been provided.
+
+To provide some numbers, A has 43 customers throughout the country to which it used to supply the products through USPE. A typical weekly demand for each of these customers is provided. To implement zone-skipping, B has provided warehouses at 7 locations for pooling. The production facility of A can also serve as a pooling location. We have to decide which pooling locations to choose and which customers to assign to them for minimum cost. 
+
+\section{Approach}
+While solving this problem, I wish to explore the MILP approach to the problem. Additionally, I also wish to implement any dedicated algorithm/heuristic for the problem which is already in literature. The best approach can be found after a series of discussions.
+
+
+\bibliography{ref}
+\bibliographystyle{plainurl}
+
+
+\end{document}
