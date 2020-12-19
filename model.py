@@ -40,10 +40,34 @@ for z in range(2,9):
     for j in Pool:
         if len(zones[j,z]) > 0:
             m.parcelCost_cons.add(expr=sum(m.d[j,i] for i in zones[j,z])*DistRates.loc[z]['Rate per Pound'] <= m.r[z,j])              
-            
+
+m.allocation_cons = ConstraintList()
+for i in Dest:
+    m.allocation_cons.add(expr=sum(m.x[j,i] for j in Pool) == 1)
 
 m.TotalCost = m.Objective(expr= sum(m.r[z,j] for z in range(2,9) for j in Pool)+
                                 sum(40000/52*m.y[j] for j in Pool)+
                                 sum(sum(m.d[j,i] for i in Dest)*PoolCost.loc[j]['Truckload Rate ($/Mile)']*miles[15238,j]+m.y[j]*PoolCost.loc[j]['Handling Cost/Shipment'] for j in Pool),
                                 sense=minimize)
 m.pprint()
+
+opt = SolverFactory('cbc.exe')
+result = opt.solve(m,tee=True)
+print(result.solver.status)
+print(result.solver.termination_condition)
+
+for i in Pool:
+    print("Choosing",i,"facility",m.y[i].value)
+    
+print(m.TotalCost.value())
+
+allocation = pd.DataFrame(columns = Pool, index = Dest)
+for i in Dest:
+    for j in Pool:
+        allocation.loc[i][j] = m.x[j,i].value
+        
+demand_flow = pd.DataFrame(columns = Pool, index = Dest)
+for i in Dest:
+    for j in Pool:
+        demand_flow.loc[i][j] = m.d[j,i].value
+
