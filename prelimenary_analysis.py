@@ -7,7 +7,7 @@ Created on Tue Dec  8 17:12:00 2020
 
 import pandas as pd
 import matplotlib.pyplot as plt
-from geopy.distance import geodesic
+from pyomo.environ import *
 
 xl_fileZones = pd.read_excel(r'data\DistributorZones.xls',sheet_name=None)
 xl_filesSales = pd.read_excel(r'data\SalesData.xls',sheet_name=None)
@@ -16,6 +16,7 @@ xl_filesSales.keys()
 
 SalesData = xl_filesSales[list(xl_filesSales.keys())[0]]
 zipwiseSales = SalesData.groupby(by='Destination Zip Code').sum()
+zipwiseSales.columns = ['Demand']
 
 dist_zones = xl_fileZones['Distributor Zones']
 pool_zones = xl_fileZones['Table 1']
@@ -37,24 +38,40 @@ Pool = list(pool_zones['Zip Code'].unique())
 Pool.append(15238)
 Dest = list(SalesData['Destination Zip Code'].unique())
 
-f = dist_zones.loc[0]['geopoint']
-t = dist_zones.loc[1]['geopoint']
 
-print(1.2*geodesic(f,t).miles)
-print(f)
-print(t)
-
-cfactor = 1.21
 miles = {}
-for i in Pool:
-    for j in Dest:
-        pi = zip2latlong.loc[i]['geopoint']
-        pj = zip2latlong.loc[j]['geopoint']
-        d = cfactor * geodesic(pi,pj).miles
-        miles[i,j] = d
+i = Pool[-1]
+for j in range(len(Pool)-1):
+    miles[i,Pool[j]] = float(input("Dist between "+str(i)+" & "+str(Pool[j])+"(miles):"))
+miles[15238,15238] = 0.0
 
 
+PoolCost = xl_fileZones['Table 1']
+PoolCost.drop('Location',axis=1,inplace=True)
+PoolCost.set_index('Zip Code',inplace=True)
+for i in PoolCost.columns:
+    PoolCost.loc[15238] = [0.0, 0.0]
 
+DistRates = xl_fileZones['Table 3 USPE Published Rates']
+DistRates.set_index('Zone',inplace=True)
+DirectRates = xl_fileZones['Table 2 USPE Proposed Rates']
+DirectRates.set_index('Zone',inplace=True)
+
+
+dist_zones.drop(dist_zones.columns[0:3],inplace=True,axis=1)
+dist_zones.set_index('Destination Zip Code',inplace=True)
+dist_zones.drop('geopoint',inplace=True,axis=1)
+dist_zones.columns = [15238,91789,97420,89029,83263,86045,95687,99362]
+
+zones = {}
+for i in range(2,9):
+    for j in Pool:
+        zones[j,i] = []
+
+for i in dist_zones.columns:
+    for j in dist_zones.index:
+        z = dist_zones.loc[j][i]
+        zones[i,z].append(j)
 
 '''
 ind = range(1, 43*8+1)
@@ -64,4 +81,15 @@ for i in ind:
     write.loc[i]['Dest'] = Dest[(i-1)%43]
 
 write.to_csv('data\DistData.csv')
+
+
+miles imput :
+2418
+2703
+2160
+1863
+1933
+2524
+2380
+
 '''
