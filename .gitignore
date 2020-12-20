@@ -4,3 +4,5 @@
 *.pdf
 *.csv
 *.tgz
+*.bak
+*.ini
