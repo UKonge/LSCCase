@@ -6,12 +6,12 @@ Created on Tue Dec  8 17:12:00 2020
 """
 
 import pandas as pd
-import matplotlib.pyplot as plt
-from pyomo.environ import *
 
 xl_fileZones = pd.read_excel(r'data\DistributorZones.xls',sheet_name=None)
 xl_filesSales = pd.read_excel(r'data\SalesData.xls',sheet_name=None)
-
+Dest_city = list(xl_fileZones['Distributor Zones']['Destination City'])
+Pool_city = list(xl_fileZones['Table 1']['Location'])
+Pool_city.append('Blawnox')
 xl_filesSales.keys()
 
 SalesData = xl_filesSales[list(xl_filesSales.keys())[0]]
@@ -72,6 +72,18 @@ for i in dist_zones.columns:
     for j in dist_zones.index:
         z = dist_zones.loc[j][i]
         zones[i,z].append(j)
+
+data = pd.DataFrame(columns=['Location','Zip','Lat','Long','Cat','color'])
+
+ind = 0
+for i in range(len(Dest)):
+    data.loc[ind] = [Dest_city[i], Dest[i], zip2latlong.loc[Dest[i]]['Latitude'], zip2latlong.loc[Dest[i]]['Longitude'], 'Destination', 'red']
+    ind = ind+1
+for i in range(len(Pool)):
+    data.loc[ind] = [Pool_city[i], Pool[i], zip2latlong.loc[Pool[i]]['Latitude'], zip2latlong.loc[Pool[i]]['Longitude'], 'Pool', 'green']
+    ind =  ind+1
+
+data.to_csv('Data2PlotOnMap.csv')
 
 '''
 ind = range(1, 43*8+1)
