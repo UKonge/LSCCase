@@ -5,6 +5,8 @@
 \usepackage{relsize}
 \usepackage{url}
 \usepackage{comment}
+\usepackage{graphicx}
+\usepackage{booktabs}
  
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\Z}{\mathbb{Z}}
@@ -35,9 +37,36 @@
 \date{}
 \maketitle
 
+\section{Overview}
+In my last communication, I briefly described the case of optimizing distribution network. Since then, I have made some progress. I had a brief talk with the winner of the challenge through which some things became more clear. 
 
+Here, I am describing the problem in bit more detail. Then, I will add the analysis which can be done for the problem. This was a result of the brief discussion with the winner. I have modelled the system as MILP formulation which is presented here. This and other code is available in my Github repo. 
 
+\section{Things to write}
+\begin{itemize}
+	\item In depth explanation of the problem statement
+	\item Opportunities
+	\item Approach - MILP
+\end{itemize}
 
+\section{Formulation}
+
+\begin{table}
+	\centering
+	\begin{tabular}{cl}
+		\toprule
+		Variables & \\
+		\midrule
+		$x_{j,i}$ & Binary variable to denote if distributor $i$ is served from pooling location $j$\\
+		$y_j$ & Binary variable to denote if pooling location $j$ needs to be used\\
+		$g_{z,j}$ & Binary variable to denote if a zone $z$ is served from pooling location $j$\\
+		$r_{z,j}$ & Total cost to deliver parcel from pooling location $j$ to zone $z$ \\
+		$d_{j,i}$ & Demand of distributor $i$ served from pooling station $j$\\
+		\bottomrule	
+	\end{tabular}
+	\caption{Parameters, Variables Table}
+	\label{Tab:ParamSetVar}
+\end{table}
 
 %\bibliography{ref}
 %\bibliographystyle{plainurl}

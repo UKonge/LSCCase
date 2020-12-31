@@ -38,11 +38,14 @@ Pool = list(pool_zones['Zip Code'].unique())
 Pool.append(15238)
 Dest = list(SalesData['Destination Zip Code'].unique())
 
-
+m = [2418,2703,2160,1863,1933,2524,2380]
 miles = {}
 i = Pool[-1]
+k = 0
 for j in range(len(Pool)-1):
-    miles[i,Pool[j]] = float(input("Dist between "+str(i)+" & "+str(Pool[j])+"(miles):"))
+    #miles[i,Pool[j]] = float(input("Dist between "+str(i)+" & "+str(Pool[j])+"(miles):"))
+    miles[i,Pool[j]] = m[k]
+    k = k+1
 miles[15238,15238] = 0.0
 
 
